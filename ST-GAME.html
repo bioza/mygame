@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>เกมสูตรคูณ</title>
+</head>
+<body>
+    <h1>เกมสูตรคูณ</h1>
+
+    <div id="question">
+        <p>
+            {{ question }}
+        </p>
+    </div>
+
+    <form action="game.html" method="post">
+        <input type="text" name="answer" required>
+        <button type="submit">ส่ง</button>
+    </form>
+
+    <div id="result">
+        <p>
+            {{ result }}
+        </p>
+    </div>
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var difficulty = "easy";
+            var number_of_questions = 10;
+
+            function generateQuestion() {
+                var x = Math.floor(Math.random() * 12) + 1;
+                var y = Math.floor(Math.random() * 12) + 1;
+
+                return {
+                    "question": x + " x " + y + " = ?",
+                    "answer": x * y,
+                };
+            }
+
+            function checkAnswer(answer, question) {
+                return question.answer == answer;
+            }
+
+            var question = generateQuestion();
+            $("#question").html(question.question);
+
+            $("form").submit(function() {
+                var answer = $("input[name='answer']").val();
+
+                var result = checkAnswer(answer, question);
+
+                $("#result").html(result);
+
+                question = generateQuestion();
+                $("#question").html(question.question);
+
+                return false;
+            });
+        });
+    </script>
+</body>
+</html>
